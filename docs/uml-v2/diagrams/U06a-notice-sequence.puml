@@ -1,0 +1,45 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam ArrowColor #365879
+skinparam ParticipantBackgroundColor #EEF4F8
+title U06a 时序图：通知命令持久化、生效与分发
+autonumber
+actor 操作者 as User
+boundary "浏览器" as UI
+control "FastAPI / Facade" as API
+database "PostgreSQL" as PG
+control "CommandProcessor" as Processor
+entity "World / State" as World
+control "OutboxDispatcher" as Dispatcher
+queue "Redis Streams" as Redis
+User -> UI : 发布全体活动通知
+UI -> API : POST command(request_id)
+API -> PG : 插入CommandEnvelope（唯一request_id）
+PG --> API : 提交成功 / 已有回执
+API --> UI : 202 + command_id（已接收）
+... Runtime异步轮询 ...
+group 同一个短数据库事务
+  Processor -> PG : 锁run行，取可执行命令并加载World
+  PG --> Processor : 命令与最新世界状态
+  Processor -> Processor : CommandCodec.decode()
+  Processor -> World : state.classify(PUBLISH_NOTICE)
+  World --> Processor : EXECUTE
+  Processor -> World : PublishNoticeCommand.execute(world)
+  World --> Processor : 更新的World + NoticePublished
+  Processor -> PG : 保存状态、events、outbox、命令结果
+  PG --> Processor : COMMIT（通知已生效）
+end
+... Dispatcher独立轮询 ...
+Dispatcher -> PG : 读取待发布Outbox
+PG --> Dispatcher : 事件42
+Dispatcher ->> Redis : XADD NoticePublished(event_id, seq=42)
+Redis --> Dispatcher : 发布确认
+Dispatcher -> PG : 标记Outbox已发布
+note over Dispatcher,Redis
+发送成功但标记失败可重复发送。
+消费者按事件ID去重。
+两个消费组分别获得事件，后续见U06b。
+end note
+@enduml

@@ -1,0 +1,146 @@
+{
+  "target": "actual deployed six-service server via SSH tunnel",
+  "checks": [
+    {
+      "name": "default five locations and eight agents; Chen Yu at teaching building",
+      "passed": true
+    },
+    {
+      "name": "actual browser WebSocket connection established",
+      "passed": true
+    },
+    {
+      "name": "browser submit: accepted then exact authoritative event proves applied",
+      "passed": true,
+      "states": [
+        "提交中",
+        "已接收",
+        "已生效"
+      ],
+      "event_id": "evt-c66b0aaf-85a0-4bab-ac77-541a1cdb1661"
+    },
+    {
+      "name": "all eight agents have exactly one memory for the notice",
+      "passed": true
+    },
+    {
+      "name": "same request reuses command; changed content conflicts with 409",
+      "passed": true
+    },
+    {
+      "name": "accepted invalid audience becomes rejected without publishing a notice",
+      "passed": true
+    },
+    {
+      "name": "lost real POST response: browser retries identical ID and content with one effect",
+      "passed": true
+    },
+    {
+      "name": "real browser offline/reconnect catches up from old seq without duplicate timeline rows",
+      "passed": true,
+      "sockets": 2,
+      "before_seq": 12
+    },
+    {
+      "name": "actual API incremental pagination advances the authoritative cursor",
+      "passed": true
+    },
+    {
+      "name": "no uncaught browser exceptions",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "first_command": {
+    "request_id": "11926c13-ae51-42f7-b3bb-1fb7f050fd63",
+    "command_id": "cmd-09d5ad1804a4424d89741f0290f0eed0",
+    "status": "accepted",
+    "result_event_ids": [],
+    "reason": null
+  },
+  "final_state": {
+    "run_id": "demo-campus-run",
+    "name": "社团活动筹备",
+    "status": "RUNNING",
+    "sim_time_ms": 0,
+    "last_seq": 13,
+    "locations": [
+      {
+        "location_id": "activity-room",
+        "name": "活动室",
+        "is_open": true
+      },
+      {
+        "location_id": "cafeteria",
+        "name": "食堂",
+        "is_open": true
+      },
+      {
+        "location_id": "library",
+        "name": "图书馆",
+        "is_open": true
+      },
+      {
+        "location_id": "playground",
+        "name": "操场",
+        "is_open": true
+      },
+      {
+        "location_id": "teaching-building",
+        "name": "教学楼",
+        "is_open": true
+      }
+    ],
+    "agents": [
+      {
+        "agent_id": "chen-yu",
+        "name": "陈宇",
+        "location_id": "teaching-building",
+        "location_name": "教学楼"
+      },
+      {
+        "agent_id": "li-mu",
+        "name": "李沐",
+        "location_id": "cafeteria",
+        "location_name": "食堂"
+      },
+      {
+        "agent_id": "lin-xia",
+        "name": "林夏",
+        "location_id": "library",
+        "location_name": "图书馆"
+      },
+      {
+        "agent_id": "sun-ke",
+        "name": "孙可",
+        "location_id": "library",
+        "location_name": "图书馆"
+      },
+      {
+        "agent_id": "wang-yue",
+        "name": "王悦",
+        "location_id": "playground",
+        "location_name": "操场"
+      },
+      {
+        "agent_id": "xu-an",
+        "name": "许安",
+        "location_id": "activity-room",
+        "location_name": "活动室"
+      },
+      {
+        "agent_id": "zhao-hang",
+        "name": "赵航",
+        "location_id": "teaching-building",
+        "location_name": "教学楼"
+      },
+      {
+        "agent_id": "zhou-ning",
+        "name": "周宁",
+        "location_id": "activity-room",
+        "location_name": "活动室"
+      }
+    ]
+  },
+  "completed_at": "2026-11-05T14:05:47.110Z"
+}

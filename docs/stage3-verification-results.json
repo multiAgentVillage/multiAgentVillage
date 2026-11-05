@@ -1,0 +1,425 @@
+{
+  "stage": 3,
+  "recorded_at": "2026-11-05T07:24:25.365015+00:00",
+  "plan": "docs/project-plan-v2.md (2.1)",
+  "deployment": {
+    "server": "SERVER_HOST",
+    "project": "campus-verify-bcb02f6b",
+    "directory": "/path/to/multiAgentVillage",
+    "frontend_loopback_port": 33931,
+    "api_loopback_port": 49631,
+    "migration_before": "0001_baseline",
+    "migration_after": "0002_core_schema",
+    "alembic_check": "passed",
+    "backend_image": "campus-sandbox-backend:stage3-20261105",
+    "source_archive_sha256": "27ded52373ce7b448adc3c3c655b541630809c4f131641228d9015747d2bf23d",
+    "original_container_evidence": "docs/server-verification-2026-11-05.json",
+    "temporary_test_database": "stage3_test_20261105_b72",
+    "temporary_test_database_removed": true
+  },
+  "automated_tests": {
+    "local_backend": {
+      "passed": 135,
+      "skipped_records": 9,
+      "warnings": 1
+    },
+    "server_real_dependencies_source_mount": {
+      "passed": 175,
+      "skipped": 0,
+      "warnings": 1
+    },
+    "server_final_backend_image": {
+      "passed": 175,
+      "skipped": 0,
+      "warnings": 1
+    },
+    "real_postgres_tests_included": 39,
+    "real_redis_tests_included": 1,
+    "frontend_logic_tests": {
+      "passed": 6
+    },
+    "frontend_typecheck": "passed",
+    "frontend_production_build": "passed",
+    "pip_check": "passed"
+  },
+  "actual_server_browser": {
+    "target": "actual deployed six-service server via SSH tunnel",
+    "checks": [
+      {
+        "name": "default five locations and eight agents; Chen Yu at teaching building",
+        "passed": true
+      },
+      {
+        "name": "actual browser WebSocket connection established",
+        "passed": true
+      },
+      {
+        "name": "browser submit: accepted then exact authoritative event proves applied",
+        "passed": true,
+        "states": [
+          "提交中",
+          "已接收",
+          "已生效"
+        ],
+        "event_id": "evt-3f6391cf-c843-498f-a093-7dc9f061f6b2"
+      },
+      {
+        "name": "all eight agents have exactly one memory for the notice",
+        "passed": true
+      },
+      {
+        "name": "same request reuses command; changed content conflicts with 409",
+        "passed": true
+      },
+      {
+        "name": "accepted invalid audience becomes rejected without publishing a notice",
+        "passed": true
+      },
+      {
+        "name": "lost real POST response: browser retries identical ID and content with one effect",
+        "passed": true
+      },
+      {
+        "name": "real browser offline/reconnect catches up from old seq without duplicate timeline rows",
+        "passed": true,
+        "sockets": 2,
+        "before_seq": 2
+      },
+      {
+        "name": "actual API incremental pagination advances the authoritative cursor",
+        "passed": true
+      },
+      {
+        "name": "no uncaught browser exceptions",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "first_command": {
+      "request_id": "ac0f9a73-5578-4881-a478-46fc035ac951",
+      "command_id": "cmd-f3e5794f9cbf4e5580b8776c95567d21",
+      "status": "accepted",
+      "result_event_ids": [],
+      "reason": null
+    },
+    "final_state": {
+      "run_id": "demo-campus-run",
+      "name": "社团活动筹备",
+      "status": "RUNNING",
+      "sim_time_ms": 0,
+      "last_seq": 3,
+      "locations": [
+        {
+          "location_id": "activity-room",
+          "name": "活动室",
+          "is_open": true
+        },
+        {
+          "location_id": "cafeteria",
+          "name": "食堂",
+          "is_open": true
+        },
+        {
+          "location_id": "library",
+          "name": "图书馆",
+          "is_open": true
+        },
+        {
+          "location_id": "playground",
+          "name": "操场",
+          "is_open": true
+        },
+        {
+          "location_id": "teaching-building",
+          "name": "教学楼",
+          "is_open": true
+        }
+      ],
+      "agents": [
+        {
+          "agent_id": "chen-yu",
+          "name": "陈宇",
+          "location_id": "teaching-building",
+          "location_name": "教学楼"
+        },
+        {
+          "agent_id": "li-mu",
+          "name": "李沐",
+          "location_id": "cafeteria",
+          "location_name": "食堂"
+        },
+        {
+          "agent_id": "lin-xia",
+          "name": "林夏",
+          "location_id": "library",
+          "location_name": "图书馆"
+        },
+        {
+          "agent_id": "sun-ke",
+          "name": "孙可",
+          "location_id": "library",
+          "location_name": "图书馆"
+        },
+        {
+          "agent_id": "wang-yue",
+          "name": "王悦",
+          "location_id": "playground",
+          "location_name": "操场"
+        },
+        {
+          "agent_id": "xu-an",
+          "name": "许安",
+          "location_id": "activity-room",
+          "location_name": "活动室"
+        },
+        {
+          "agent_id": "zhao-hang",
+          "name": "赵航",
+          "location_id": "teaching-building",
+          "location_name": "教学楼"
+        },
+        {
+          "agent_id": "zhou-ning",
+          "name": "周宁",
+          "location_id": "activity-room",
+          "location_name": "活动室"
+        }
+      ]
+    },
+    "completed_at": "2026-11-05T07:16:05.359Z"
+  },
+  "actual_server_fault_and_integrity_checks": {
+    "checks": [
+      {
+        "name": "reinitialization preserves existing events, seq, memories and receipts",
+        "passed": true,
+        "seq": 3
+      },
+      {
+        "name": "Runtime restart processes durable pending input exactly once",
+        "passed": true,
+        "event_id": "evt-4f5db9da-1197-4b9c-bd1a-255453713925"
+      },
+      {
+        "name": "Cognition restart consumes duplicate deliveries with eight memories and one receipt",
+        "passed": true,
+        "event_id": "evt-2fe390f3-0379-4933-92f6-ab864825abd1",
+        "extra_deliveries": 2
+      },
+      {
+        "name": "Redis outage retains authoritative event and retryable Outbox",
+        "passed": true,
+        "event_id": "evt-3392b0b7-f6ee-44a0-9062-31ccdbaec522",
+        "attempts": 2
+      },
+      {
+        "name": "Redis recovery drains Outbox and preserves one business effect",
+        "passed": true,
+        "event_id": "evt-3392b0b7-f6ee-44a0-9062-31ccdbaec522"
+      },
+      {
+        "name": "both real Streams groups read all deliveries independently and have empty PEL",
+        "passed": true,
+        "length": 8,
+        "groups": [
+          {
+            "name": "cognition",
+            "consumers": 2,
+            "pending": 0,
+            "last-delivered-id": "1793863164209-0",
+            "entries-read": 8,
+            "lag": 0
+          },
+          {
+            "name": "display",
+            "consumers": 1,
+            "pending": 0,
+            "last-delivered-id": "1793863164209-0",
+            "entries-read": 8,
+            "lag": 0
+          }
+        ]
+      },
+      {
+        "name": "all persisted notices have contiguous seq, one Outbox, two receipts and correct memories",
+        "passed": true,
+        "events": 6,
+        "memories": 48
+      },
+      {
+        "name": "six healthy/running services retain exact original PG/Redis containers and volumes; shared backend image contains no build proxy",
+        "passed": true
+      }
+    ],
+    "started_at": "2026-11-05T07:19:02.847626+00:00",
+    "database": {
+      "version": "0002_core_schema",
+      "last_seq": 6,
+      "events": [
+        {
+          "event_id": "evt-3f6391cf-c843-498f-a093-7dc9f061f6b2",
+          "seq": 1,
+          "causation_id": "cmd-f3e5794f9cbf4e5580b8776c95567d21",
+          "memories": 8,
+          "expected_memories": 8,
+          "receipts": [
+            "cognition",
+            "display"
+          ],
+          "published": true,
+          "attempts": 1
+        },
+        {
+          "event_id": "evt-e357638c-705a-49d3-ac4a-b3a33c250ab5",
+          "seq": 2,
+          "causation_id": "cmd-5bdfef4286b64f099572ded34f4d37c0",
+          "memories": 8,
+          "expected_memories": 8,
+          "receipts": [
+            "cognition",
+            "display"
+          ],
+          "published": true,
+          "attempts": 1
+        },
+        {
+          "event_id": "evt-74f61b7a-5e51-4621-ab83-51608c250614",
+          "seq": 3,
+          "causation_id": "cmd-9edc684bdfca400b9009a744f3b27547",
+          "memories": 8,
+          "expected_memories": 8,
+          "receipts": [
+            "cognition",
+            "display"
+          ],
+          "published": true,
+          "attempts": 1
+        },
+        {
+          "event_id": "evt-4f5db9da-1197-4b9c-bd1a-255453713925",
+          "seq": 4,
+          "causation_id": "cmd-1f408c41a41e4d2d8a15ac880a3f0ea8",
+          "memories": 8,
+          "expected_memories": 8,
+          "receipts": [
+            "cognition",
+            "display"
+          ],
+          "published": true,
+          "attempts": 1
+        },
+        {
+          "event_id": "evt-2fe390f3-0379-4933-92f6-ab864825abd1",
+          "seq": 5,
+          "causation_id": "cmd-77d024154b5b41ffae4f139a25f81d8c",
+          "memories": 8,
+          "expected_memories": 8,
+          "receipts": [
+            "cognition",
+            "display"
+          ],
+          "published": true,
+          "attempts": 1
+        },
+        {
+          "event_id": "evt-3392b0b7-f6ee-44a0-9062-31ccdbaec522",
+          "seq": 6,
+          "causation_id": "cmd-4f4442df357a4427a7772b4e6f86d0f3",
+          "memories": 8,
+          "expected_memories": 8,
+          "receipts": [
+            "cognition",
+            "display"
+          ],
+          "published": true,
+          "attempts": 3
+        }
+      ],
+      "commands": {
+        "applied": 6,
+        "rejected": 1
+      }
+    },
+    "services": [
+      {
+        "service": "api",
+        "container_id": "d6760b8b3a35686cb63f2fd3d4e1588e09ca80b27b29a08f02804af2cfddac44",
+        "image_id": "sha256:8f6fa78de60998a64afd9feb7f6c95b37782ba4952827c88cc5603983c86b1bd",
+        "state": "running",
+        "health": "healthy",
+        "restart_count": 0,
+        "volumes": []
+      },
+      {
+        "service": "cognition",
+        "container_id": "8818bbce5239ec5490ee0defc4a2dc6ab9a96308f558b7a40d48e38e0cd6f39f",
+        "image_id": "sha256:8f6fa78de60998a64afd9feb7f6c95b37782ba4952827c88cc5603983c86b1bd",
+        "state": "running",
+        "health": null,
+        "restart_count": 0,
+        "volumes": []
+      },
+      {
+        "service": "frontend",
+        "container_id": "6e2802e9d05262574ebea6217f86ff81b0076b9b19fadc80c020dd56054d7936",
+        "image_id": "sha256:089734d160c3781a52d26fe02991f6d5761be10734988d0fb24b792985e7c85a",
+        "state": "running",
+        "health": "healthy",
+        "restart_count": 0,
+        "volumes": []
+      },
+      {
+        "service": "postgres",
+        "container_id": "45233c86dfbf46950232ef420258f5307b46f0d91db14e26eab1fecc59b4370e",
+        "image_id": "sha256:05aa77262db9277fde6374bb2f901c9604b8a9373029e1a7993440c6aae48736",
+        "state": "running",
+        "health": "healthy",
+        "restart_count": 0,
+        "volumes": [
+          "campus-verify-bcb02f6b_postgres_data"
+        ]
+      },
+      {
+        "service": "redis",
+        "container_id": "36f5ab4ab5537a916c8419f3fe6460501ea65d3b7906039847290cd3e63e9694",
+        "image_id": "sha256:8da19c7399dca900c6822a1cf30f9d2285585e2c4b457ff4095b0f4500054d3f",
+        "state": "running",
+        "health": "healthy",
+        "restart_count": 0,
+        "volumes": [
+          "campus-verify-bcb02f6b_redis_data"
+        ]
+      },
+      {
+        "service": "runtime",
+        "container_id": "6c4662d47d80d2fc841830129ad17af2dab0c2d7e1c6576e077311918cd84968",
+        "image_id": "sha256:8f6fa78de60998a64afd9feb7f6c95b37782ba4952827c88cc5603983c86b1bd",
+        "state": "running",
+        "health": null,
+        "restart_count": 0,
+        "volumes": []
+      }
+    ],
+    "passed": true,
+    "completed_at": "2026-11-05T07:21:35.818176+00:00",
+    "backup": {
+      "path": "/path/to/multiAgentVillage/stage3-backup-20261105/campus-before-stage3.dump",
+      "bytes": 1701,
+      "sha256": "dd06bff8c405aa8ff6518dfb8d71a02bcf1dfa9e7a32f8c3de16c9fa8b95f5f0"
+    },
+    "verification_note": "The first final container comparison incorrectly used the former frontend ID as the expected PostgreSQL ID. Business/fault checks had passed. This read-only verification used the exact PostgreSQL and Redis IDs from the original stage-one report and confirmed both containers and volumes were retained."
+  },
+  "screenshot": "docs/images/stage3-workbench.png (before worker fault injection)",
+  "scope_not_implemented": [
+    "model decisions",
+    "agent actions",
+    "complete run controls and clock",
+    "restart-to-PAUSED lifecycle recovery",
+    "history replay",
+    "public authentication"
+  ],
+  "non_blocking_warnings": [
+    "Existing Starlette TestClient dependency emits a BlockingPortal deprecation warning.",
+    "Frontend Ant Design bundle is 819.83 kB uncompressed and triggers the Vite chunk-size advisory."
+  ]
+}

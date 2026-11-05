@@ -1,0 +1,239 @@
+{
+  "timestamp": "2026-11-05T00:09:02.644785+08:00",
+  "directory": "/path/to/multiAgentVillage",
+  "project": "campus-verify-bcb02f6b",
+  "backend_image": "campus-sandbox-backend:verify-bcb02f6b",
+  "ports": {
+    "FRONTEND_PORT": "33931",
+    "API_PORT": "49631",
+    "POSTGRES_PUBLISHED_PORT": "37727",
+    "REDIS_PUBLISHED_PORT": "40959"
+  },
+  "bind_address": "127.0.0.1",
+  "archive_sha256": "b256b478a5e586a1c61f9cab66ef55a7e3732f663749b409e26d4f4c6ee2e975",
+  "initial_services": {
+    "api": {
+      "container_id": "bd193013be22b731bf3e227287ef1c29dab99491aa94b1b2405ffe0ad0fbc3f9",
+      "name": "campus-verify-bcb02f6b-api-1",
+      "image_id": "sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa",
+      "status": "running",
+      "restarts": 0,
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "49631"
+          }
+        ]
+      }
+    },
+    "cognition": {
+      "container_id": "00f01985626101bdc6ae177f711bdeacacee5faeaa940557617e7acd580cce3a",
+      "name": "campus-verify-bcb02f6b-cognition-1",
+      "image_id": "sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa",
+      "status": "running",
+      "restarts": 0,
+      "health": "not_configured",
+      "ports": {
+        "8000/tcp": null
+      }
+    },
+    "frontend": {
+      "container_id": "3db335b23e59373128ae08c81f1cd39dad47658e98dce8142e82d079bd343f9f",
+      "name": "campus-verify-bcb02f6b-frontend-1",
+      "image_id": "sha256:af922825f553f5e7b38bfcf3140db579bdc55dab62ea8ba71307385175f508f0",
+      "status": "running",
+      "restarts": 0,
+      "health": "healthy",
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "33931"
+          }
+        ]
+      }
+    },
+    "postgres": {
+      "container_id": "45233c86dfbf46950232ef420258f5307b46f0d91db14e26eab1fecc59b4370e",
+      "name": "campus-verify-bcb02f6b-postgres-1",
+      "image_id": "sha256:05aa77262db9277fde6374bb2f901c9604b8a9373029e1a7993440c6aae48736",
+      "status": "running",
+      "restarts": 0,
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "37727"
+          }
+        ]
+      }
+    },
+    "redis": {
+      "container_id": "36f5ab4ab5537a916c8419f3fe6460501ea65d3b7906039847290cd3e63e9694",
+      "name": "campus-verify-bcb02f6b-redis-1",
+      "image_id": "sha256:8da19c7399dca900c6822a1cf30f9d2285585e2c4b457ff4095b0f4500054d3f",
+      "status": "running",
+      "restarts": 0,
+      "health": "healthy",
+      "ports": {
+        "6379/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "40959"
+          }
+        ]
+      }
+    },
+    "runtime": {
+      "container_id": "25468cdd4b4b478f0c1e6e370937255878723916b8db2287d7580c7e7f92824e",
+      "name": "campus-verify-bcb02f6b-runtime-1",
+      "image_id": "sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa",
+      "status": "running",
+      "restarts": 0,
+      "health": "not_configured",
+      "ports": {
+        "8000/tcp": null
+      }
+    }
+  },
+  "liveness": {
+    "status": "ok",
+    "service": "api"
+  },
+  "readiness": {
+    "status": "ready",
+    "dependencies": {
+      "postgres": "ok",
+      "redis": "ok"
+    }
+  },
+  "proxied_readiness": {
+    "status": "ready",
+    "dependencies": {
+      "postgres": "ok",
+      "redis": "ok"
+    }
+  },
+  "static_assets": [
+    "/assets/index-Bz5qcKUj.js",
+    "/assets/index-BapqzEA-.css"
+  ],
+  "migration": "0001_baseline",
+  "redis_ping": "PONG",
+  "backend_uid": "999",
+  "pytest": ".....                                                                    [100%]\n=============================== warnings summary ===============================\n../usr/local/lib/python3.12/site-packages/starlette/testclient.py:37\n  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.\n    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]\n\n../usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:475\n  /usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:475: PytestCacheWarning: could not create cache path /app/.pytest_cache/v/cache/nodeids: [Errno 13] Permission denied: '/app/pytest-cache-files-gkxdc9yb'\n    config.cache.set(\"cache/nodeids\", sorted(self.cached_nodeids))\n\n../usr/local/lib/python3.12/site-packages/_pytest/stepwise.py:51\n  /usr/local/lib/python3.12/site-packages/_pytest/stepwise.py:51: PytestCacheWarning: could not create cache path /app/.pytest_cache/v/cache/stepwise: [Errno 13] Permission denied: '/app/pytest-cache-files-lnjbt1pk'\n    session.config.cache.set(STEPWISE_CACHE_DIR, [])\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n5 passed, 3 warnings in 0.61s",
+  "image_versions": "[{\"ID\":\"sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa\",\"ContainerName\":\"campus-verify-bcb02f6b-api-1\",\"Repository\":\"campus-sandbox-backend\",\"Tag\":\"verify-bcb02f6b\",\"Platform\":\"linux/amd64\",\"Size\":73249751,\"LastTagTime\":\"2026-11-04T15:52:11.134840491Z\"},{\"ID\":\"sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa\",\"ContainerName\":\"campus-verify-bcb02f6b-runtime-1\",\"Repository\":\"campus-sandbox-backend\",\"Tag\":\"verify-bcb02f6b\",\"Platform\":\"linux/amd64\",\"Size\":73249751,\"LastTagTime\":\"2026-11-04T15:52:11.134840491Z\"},{\"ID\":\"sha256:8da19c7399dca900c6822a1cf30f9d2285585e2c4b457ff4095b0f4500054d3f\",\"ContainerName\":\"campus-verify-bcb02f6b-redis-1\",\"Repository\":\"redis\",\"Tag\":\"7.4.12-alpine\",\"Platform\":\"linux/amd64\",\"Size\":16261881,\"LastTagTime\":\"2026-11-04T15:33:19.982776779Z\"},{\"ID\":\"sha256:05aa77262db9277fde6374bb2f901c9604b8a9373029e1a7993440c6aae48736\",\"ContainerName\":\"campus-verify-bcb02f6b-postgres-1\",\"Repository\":\"postgres\",\"Tag\":\"17.11-alpine3.23\",\"Platform\":\"linux/amd64\",\"Size\":116730292,\"LastTagTime\":\"2026-11-04T15:33:46.434136371Z\"},{\"ID\":\"sha256:af922825f553f5e7b38bfcf3140db579bdc55dab62ea8ba71307385175f508f0\",\"ContainerName\":\"campus-verify-bcb02f6b-frontend-1\",\"Repository\":\"campus-verify-bcb02f6b-frontend\",\"Tag\":\"latest\",\"Platform\":\"linux/amd64\",\"Size\":21239860,\"LastTagTime\":\"2026-11-04T15:31:43.950960427Z\"},{\"ID\":\"sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa\",\"ContainerName\":\"campus-verify-bcb02f6b-cognition-1\",\"Repository\":\"campus-sandbox-backend\",\"Tag\":\"verify-bcb02f6b\",\"Platform\":\"linux/amd64\",\"Size\":73249751,\"LastTagTime\":\"2026-11-04T15:52:11.134840491Z\"}]",
+  "stable_services": {
+    "api": {
+      "container_id": "bd193013be22b731bf3e227287ef1c29dab99491aa94b1b2405ffe0ad0fbc3f9",
+      "name": "campus-verify-bcb02f6b-api-1",
+      "image_id": "sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa",
+      "status": "running",
+      "restarts": 0,
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "49631"
+          }
+        ]
+      }
+    },
+    "cognition": {
+      "container_id": "00f01985626101bdc6ae177f711bdeacacee5faeaa940557617e7acd580cce3a",
+      "name": "campus-verify-bcb02f6b-cognition-1",
+      "image_id": "sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa",
+      "status": "running",
+      "restarts": 0,
+      "health": "not_configured",
+      "ports": {
+        "8000/tcp": null
+      }
+    },
+    "frontend": {
+      "container_id": "3db335b23e59373128ae08c81f1cd39dad47658e98dce8142e82d079bd343f9f",
+      "name": "campus-verify-bcb02f6b-frontend-1",
+      "image_id": "sha256:af922825f553f5e7b38bfcf3140db579bdc55dab62ea8ba71307385175f508f0",
+      "status": "running",
+      "restarts": 0,
+      "health": "healthy",
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "33931"
+          }
+        ]
+      }
+    },
+    "postgres": {
+      "container_id": "45233c86dfbf46950232ef420258f5307b46f0d91db14e26eab1fecc59b4370e",
+      "name": "campus-verify-bcb02f6b-postgres-1",
+      "image_id": "sha256:05aa77262db9277fde6374bb2f901c9604b8a9373029e1a7993440c6aae48736",
+      "status": "running",
+      "restarts": 0,
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "37727"
+          }
+        ]
+      }
+    },
+    "redis": {
+      "container_id": "36f5ab4ab5537a916c8419f3fe6460501ea65d3b7906039847290cd3e63e9694",
+      "name": "campus-verify-bcb02f6b-redis-1",
+      "image_id": "sha256:8da19c7399dca900c6822a1cf30f9d2285585e2c4b457ff4095b0f4500054d3f",
+      "status": "running",
+      "restarts": 0,
+      "health": "healthy",
+      "ports": {
+        "6379/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "40959"
+          }
+        ]
+      }
+    },
+    "runtime": {
+      "container_id": "25468cdd4b4b478f0c1e6e370937255878723916b8db2287d7580c7e7f92824e",
+      "name": "campus-verify-bcb02f6b-runtime-1",
+      "image_id": "sha256:32ec45ab7993160376392ed5db0534643728b83cc427691e904c08c3532dfcfa",
+      "status": "running",
+      "restarts": 0,
+      "health": "not_configured",
+      "ports": {
+        "8000/tcp": null
+      }
+    }
+  },
+  "stability_seconds": 30,
+  "status": "passed",
+  "worker_restart": {
+    "status": "passed",
+    "elapsed_seconds": 3.8,
+    "graceful_shutdown_logs": "runtime-1  | 2026-11-04 16:10:38,717 INFO app.workers.base runtime stopped\nruntime-1  | 2026-11-04 16:10:40,100 INFO app.workers.base runtime started in infrastructure-only mode\nruntime-1  | 2026-11-04 16:10:40,101 INFO app.workers.base Scheduler / CommandProcessor is idle: business processing is not implemented\nruntime-1  | 2026-11-04 16:10:40,101 INFO app.workers.base OutboxDispatcher is idle: business processing is not implemented\ncognition-1  | 2026-11-04 16:10:38,712 INFO app.workers.base cognition stopped\ncognition-1  | 2026-11-04 16:10:40,076 INFO app.workers.base cognition started in infrastructure-only mode\ncognition-1  | 2026-11-04 16:10:40,076 INFO app.workers.base CognitionObserver / DecisionService is idle: business processing is not implemented"
+  },
+  "source_sha256": {
+    "backend/Dockerfile": "52596e41df247a3dad2801e52840343dc4d44f10f0679995b4e1cbaaa8f944e8",
+    "backend/pyproject.toml": "97463d9485cd4fa08e20a226f3fe3e2d877d608f9cce0c14cf05499e7346b792",
+    "frontend/Dockerfile": "24a6cb40b9042cfeaff866d7524684ee772f6065cf39df16cba04be42330559c",
+    "frontend/package.json": "c26450403e8cdfb4e95bf1f8d6f19b17df46de9686a95b43c09882ec0fab4438",
+    "frontend/package-lock.json": "6f448e5761e71800636a6f1629dac56597f4c5db6986f680cb5ff02ec97affc0",
+    "frontend/nginx.conf": "0555ac664fdd90255b3b6a718c006132e4eb50e1c76d98bef665fb779de0feb2",
+    "docker-compose.yml": "6b6e3564622c7a83a31f24323ee306b812bc2c890850df60d2ce2d4cd53eb56e"
+  },
+  "proxy_environment_persisted": false,
+  "temporary_proxy_closed": true,
+  "backend_build_exit": 0,
+  "registry_mirrors": [
+    "https://mirror.ccs.tencentyun.com/"
+  ]
+}

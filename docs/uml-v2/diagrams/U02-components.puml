@@ -1,0 +1,52 @@
+@startuml
+!pragma layout smetana
+top to bottom direction
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam componentStyle uml2
+skinparam ArrowColor #365879
+skinparam componentBackgroundColor #EEF4F8
+title U02 组件图：对应原总体架构节点
+component "Web工作台\nReact / TypeScript / SVG" as Web
+package "API模块" {
+  component "FastAPI路由 / WebSocket" as API
+  component "SimulationFacade\n<<Facade>>" as Facade
+  component "ReadService / ReplayService\n<<Memento caretaker>>" as Read
+  component "RealtimeObserver\n<<Observer>>" as UIObs
+}
+package "Runtime模块" {
+  component "Scheduler / CommandProcessor\n<<Command invoker>>" as Processor
+  component "World / RunState\n<<Receiver / State>>" as World
+  component "OutboxDispatcher" as Dispatcher
+}
+package "Cognition模块" {
+  component "CognitionObserver / EventHub\n<<Observer>>" as Cog
+  component "DecisionService / Strategies\n<<Strategy>>" as Decision
+  component "ModelGateway / ProviderAdapter\n<<Adapter>>" as Model
+}
+database "PostgreSQL（同一实例）\ncommands / world / events\noutbox / memories / jobs / snapshots" as PG
+queue "Redis Streams\n认知组 / 展示组" as Redis
+cloud "外部模型服务" as External
+Web --> API : REST / WebSocket
+API --> Facade
+Facade --> Read
+Facade --> PG : 持久化命令
+Read --> PG : 查询 / 隔离重放
+Processor --> PG : 锁run / 原子提交
+Processor --> World : execute / advance
+Dispatcher --> PG : 待发送Outbox
+Dispatcher --> Redis : 发布事件
+Redis --> Cog : 认知消费组
+Redis --> UIObs : 展示消费组
+UIObs --> API : 更新提示
+Cog --> PG : 记忆 / 任务 / 去重
+Cog --> Decision : 任务独立执行
+Decision --> Model
+Model --> External : HTTPS
+Decision --> PG : 行动提案命令
+note bottom of World
+World不导入Redis、ORM或模型SDK。
+只有CommandProcessor通过World修改权威状态。
+end note
+@enduml

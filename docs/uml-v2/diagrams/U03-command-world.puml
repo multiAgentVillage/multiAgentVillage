@@ -1,0 +1,82 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam ArrowColor #365879
+skinparam classBackgroundColor #EEF4F8
+hide empty members
+title U03 类图：命令、世界与运行状态
+class SimulationFacade <<Facade>> {
+  +submit(envelope): CommandReceipt
+}
+class CommandInbox {
+  +append(envelope)
+}
+class CommandEnvelope <<DTO>> {
+  +command_id: str
+  +request_id: str
+  +run_id: str
+  +kind: str
+  +schema_version: int
+  +payload: JSON
+}
+class CommandCodec {
+  +decode(envelope): WorldCommand
+}
+class CommandProcessor <<Invoker>> {
+  +process_next(run_id): ProcessResult
+}
+interface WorldCommand <<Command>> {
+  +execute(world): EventDraft[]
+}
+class PublishNoticeCommand <<ConcreteCommand>>
+class CloseLocationCommand <<ConcreteCommand>>
+class ProposeActionCommand <<ConcreteCommand>>
+class World <<Receiver, Originator>> {
+  +publish_notice(command): EventDraft[]
+  +close_location(command): EventDraft[]
+  +propose_action(command): EventDraft[]
+  +create_memento(): WorldMemento
+}
+interface RunState <<State>> {
+  +classify(kind): Disposition
+  +transition(kind): RunStatus
+  +can_advance(): bool
+}
+class RunningState <<ConcreteState>>
+class PausedState <<ConcreteState>>
+class AgentState
+class LocationState
+class UnitOfWork {
+  +commit()
+  +rollback()
+}
+SimulationFacade --> CommandInbox
+CommandInbox --> CommandEnvelope : 保存
+CommandProcessor --> CommandCodec
+CommandCodec ..> CommandEnvelope
+CommandCodec ..> WorldCommand : 白名单解码
+CommandProcessor --> WorldCommand : 调用execute
+CommandProcessor --> UnitOfWork : 事务边界
+CommandProcessor --> World : 加载/保存
+WorldCommand <|.. PublishNoticeCommand
+WorldCommand <|.. CloseLocationCommand
+WorldCommand <|.. ProposeActionCommand
+PublishNoticeCommand ..> World : 调用
+CloseLocationCommand ..> World : 调用
+ProposeActionCommand ..> World : 调用
+World --> "1" RunState : 当前状态行为
+RunState <|.. RunningState
+RunState <|.. PausedState
+World "1" *-- "8" AgentState
+World "1" *-- "5" LocationState
+note bottom of RunState
+其他状态见U05：Draft / Ready / Finished / Failed。
+状态码持久化；对象按状态码装配。
+end note
+note bottom of WorldCommand
+命令对象无数据库/Redis/模型依赖。
+去重和事务由Invoker负责。
+end note
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam ArrowColor #365879
+skinparam classBackgroundColor #EEF4F8
+hide empty members
+title U07 类图：Memento与隔离历史重放
+class World <<Originator>> {
+  -agents
+  -locations
+  -actions
+  +create_memento(): WorldMemento
+  {static} +from_memento(m, read_only): World
+  +apply_event(event)
+}
+class WorldMemento <<Memento>> {
+  +run_id: str
+  +seq: int
+  +sim_time_ms: int
+  +schema_version: int
+  +hash: str
+  -opaque_state
+}
+class SnapshotStore <<Caretaker>> {
+  +save(memento)
+  +load_nearest(run_id, seq): WorldMemento
+}
+class ReplayService <<Caretaker>> {
+  +state_at(run_id, seq): ReadOnlyView
+}
+class EventStore {
+  +between(run_id, from_seq, to_seq): DomainEvent[]
+}
+class ReadOnlyView
+World ..> WorldMemento : 创建/解释内部状态
+SnapshotStore o-- "0..*" WorldMemento : 保管，不解释
+ReplayService --> SnapshotStore
+ReplayService --> EventStore
+ReplayService ..> World : 新建隔离对象，应用历史事件
+ReplayService ..> ReadOnlyView : 返回
+note bottom of ReplayService
+无ModelGateway或CommandProcessor依赖。
+不能覆盖生产中的World状态。
+只还原过去，不生成历史分支。
+end note
+@enduml

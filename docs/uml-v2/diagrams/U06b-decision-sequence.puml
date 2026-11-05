@@ -1,0 +1,60 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam ArrowColor #365879
+skinparam ParticipantBackgroundColor #EEF4F8
+title U06b 时序图：陈宇感知、决策、提案校验与行动
+autonumber
+queue "Redis Streams" as Redis
+control "EventHub / Observers" as Hub
+database "PostgreSQL" as PG
+control "DecisionService / Strategy" as Decision
+control "ModelGateway / Adapter" as Model
+control "Processor / World / State" as Runtime
+boundary "WebSocket / 浏览器" as UI
+Redis ->> Hub : 认知组：NoticePublished(seq=42)
+Hub -> PG : 事务：去重 + 陈宇记忆 + 唯一决策任务
+PG --> Hub : COMMIT
+Hub -> Redis : ACK（不等待模型）
+Redis ->> Hub : 展示组：同一事件42
+Hub ->> UI : 有更新，按seq补拉
+... Worker独立领取已持久化任务 ...
+Decision -> PG : claim任务并加载陈宇可见上下文
+PG --> Decision : 角色、目标、相关记忆、版本
+note over PG,Model : 模型请求期间不持有世界数据库事务/锁
+alt 已预留模型预算
+  Decision -> Model : generate(ModelRequest)
+  alt 模型成功且结构有效
+    Model --> Decision : ModelResponse
+    Decision -> Decision : 解析为MOVE(activity-room)提案
+  else 模型失败 / 格式无效
+    Model --> Decision : 统一响应或可降级错误
+    Decision -> Decision : RuleDecisionStrategy.decide()
+  end
+else 预算不可用
+  Decision -> Decision : 跳过模型，RuleDecisionStrategy.decide()
+end
+Decision -> PG : 保存结果 + 唯一ProposeAction命令
+PG --> Decision : COMMIT
+Runtime -> PG : 锁run，读取命令与最新World
+alt PAUSED
+  Runtime -> PG : DEFER提案，保留控制命令可执行
+  note right of Runtime : 继续后重新读取并校验；不改世界
+else 已停止 / 版本过期 / 活动室关闭
+  Runtime -> PG : 原子保存拒绝结果及相关事件/Outbox
+else RUNNING且提案合法
+  Runtime -> Runtime : ProposeActionCommand.execute(world)
+  Runtime -> PG : 原子保存移动状态 + ActionStarted + Outbox
+  ... Outbox分发后 ...
+  Redis ->> Hub : ActionStarted
+  Hub ->> UI : 更新移动表现（按仿真时间插值）
+  ... 到达动作结束时间 ...
+  Runtime -> Runtime : Scheduler提交CompleteActionCommand
+  Runtime -> PG : 同一处理边界保存AgentArrived与Outbox
+end
+note over Runtime,UI
+位置由引擎决定，模型只提出行动。
+所有新事件仍经Outbox/Redis分发。
+end note
+@enduml

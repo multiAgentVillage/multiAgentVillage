@@ -1,0 +1,47 @@
+@startuml
+!pragma layout smetana
+left to right direction
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam ArrowColor #365879
+skinparam nodeBackgroundColor #EEF4F8
+title U08 部署图：一台主机 / 三种后端进程角色
+node "用户设备" {
+  artifact "浏览器\nReact应用" as Browser
+}
+node "开发机或教学服务器\nDocker Compose" {
+  node "frontend容器" {
+    artifact "Vite构建的静态文件" as Frontend
+  }
+  node "api容器 / Python进程" {
+    artifact "FastAPI / Facade\n查询 / ReplayService\n展示EventHub / WebSocket" as API
+  }
+  node "runtime容器 / Python进程" {
+    artifact "Scheduler / Processor / World\nRunState / OutboxDispatcher" as Runtime
+  }
+  node "cognition容器 / Python进程" {
+    artifact "认知EventHub / 任务Worker\n策略 / 模型Adapter" as Cognition
+  }
+  node "postgres容器" {
+    database "同一PostgreSQL数据库\n状态 / 命令 / 事件 / 记忆 / 快照" as PG
+  }
+  node "redis容器" {
+    queue "Redis Streams\n两个消费组" as Redis
+  }
+}
+cloud "外部模型服务\n不计入本地容器" as Model
+Browser --> Frontend : HTTP静态资源
+Browser --> API : REST / WebSocket
+API --> PG : 查询 / 命令持久化
+Runtime --> PG : 事务读写
+Cognition --> PG : 记忆 / 任务 / 提案
+Runtime --> Redis : 发布
+Redis --> API : 展示组
+Redis --> Cognition : 认知组
+Cognition --> Model : HTTPS
+note bottom of PG
+命令表和世界/事件表共享同一数据库。
+三个后端入口复用同一代码库和迁移。
+end note
+@enduml

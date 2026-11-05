@@ -1,0 +1,41 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam ArrowColor #365879
+skinparam stateBackgroundColor #EEF4F8
+title U05 状态图：运行生命周期
+state "草稿\nDRAFT" as Draft
+state "就绪\nREADY" as Ready
+state "运行中\nRUNNING" as Running
+state "已暂停\nPAUSED" as Paused
+state "已结束\nFINISHED" as Finished
+state "失败\nFAILED" as Failed
+[*] --> Draft
+Draft --> Ready : ValidateConfig [配置有效]
+Ready --> Running : StartRun / RunStarted
+Running --> Paused : PauseRun / 冻结sim_time
+Paused --> Running : ResumeRun / 重新校验暂存提案
+Running --> Finished : StopRun / epoch递增
+Paused --> Finished : StopRun / epoch递增
+Ready --> Failed : 不可恢复错误
+Running --> Failed : 不可恢复错误 / epoch递增
+Paused --> Failed : 不可恢复错误 / epoch递增
+Running --> Paused : 进程重启恢复 / 记录恢复原因
+Finished --> [*]
+Failed --> [*]
+note right of Running
+允许注入事件与执行合法提案。
+调度器推进仿真时间。
+end note
+note right of Paused
+行动提案DEFER；不推进时间。
+控制命令优先，不被暂存提案阻塞。
+模型响应可保存，不能改变世界。
+end note
+note bottom of Finished
+结束后仅查询/回放。
+终止状态不接受新世界命令。
+end note
+@enduml

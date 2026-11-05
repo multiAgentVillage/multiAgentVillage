@@ -1,0 +1,41 @@
+@startuml
+!pragma layout smetana
+left to right direction
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam ArrowColor #365879
+skinparam usecaseBackgroundColor #EEF4F8
+title U01 用例图：用户任务与产品边界
+actor "实验操作者" as Operator
+actor "观察者/评审者" as Viewer
+actor "维护者" as Maintainer
+rectangle "校园仿真沙盒（MVP）" {
+  usecase "创建并配置实验\nF01 / F02" as Configure
+  usecase "校验配置" as Validate
+  usecase "启动/暂停/继续/停止\nF03" as Control
+  usecase "注入三类事件\nF04" as Inject
+  usecase "观察地图与角色\nF05" as Observe
+  usecase "查看记忆与行为依据\nF06 / F07" as Explain
+  usecase "只读历史回放\nF08" as Replay
+  usecase "读取已保存历史" as History
+  usecase "查看与导出摘要\nF09" as Export
+  usecase "查看失败与降级记录\nF10" as Diagnose
+}
+Operator --> Configure
+Operator --> Control
+Operator --> Inject
+Operator --> Observe
+Viewer --> Observe
+Viewer --> Explain
+Viewer --> Replay
+Viewer --> Export
+Maintainer --> Diagnose
+Configure ..> Validate : <<include>>
+Replay ..> History : <<include>>
+note bottom of Configure
+使用角色不等同于三套账号。
+启动前校验；运行中锁定配置。
+end note
+@enduml

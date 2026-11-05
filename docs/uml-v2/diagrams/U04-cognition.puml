@@ -1,0 +1,77 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam ArrowColor #365879
+skinparam classBackgroundColor #EEF4F8
+hide empty members
+title U04 类图：观察者、策略与模型适配器
+class EventHub <<Subject>> {
+  +subscribe(type, observer)
+  +unsubscribe(type, observer)
+  +notify(event)
+}
+interface EventObserver <<Observer>> {
+  +observer_id: str
+  +on_event(event)
+}
+class CognitionObserver <<ConcreteObserver>> {
+  +on_event(event)
+}
+class RealtimeObserver <<ConcreteObserver>> {
+  +on_event(event)
+}
+class PerceptionService {
+  +visible_agents(event): AgentId[]
+}
+class MemoryService {
+  +record(observation)
+  +retrieve(context): Memory[]
+}
+class DecisionJobStore {
+  +create_unique(task)
+  +claim(): DecisionJob
+}
+class DecisionService <<Context>> {
+  +decide(context): ActionProposal
+}
+interface DecisionStrategy <<Strategy>> {
+  +decide(context): ActionProposal
+}
+class RuleDecisionStrategy <<ConcreteStrategy>>
+class LLMDecisionStrategy <<ConcreteStrategy>>
+interface ModelGateway <<Target>> {
+  +generate(request): ModelResponse
+}
+class ProviderAdapter <<Adapter>> {
+  +generate(request): ModelResponse
+}
+class FakeModelGateway <<TestDouble>>
+class ProviderClient <<Adaptee>> {
+  +provider_specific_request(...)
+}
+EventHub o-- "0..*" EventObserver : 注册/通知
+EventObserver <|.. CognitionObserver
+EventObserver <|.. RealtimeObserver
+CognitionObserver --> PerceptionService
+CognitionObserver --> MemoryService
+CognitionObserver --> DecisionJobStore
+DecisionService --> DecisionJobStore : 读取任务
+DecisionService --> DecisionStrategy : 选择/调用
+DecisionStrategy <|.. RuleDecisionStrategy
+DecisionStrategy <|.. LLMDecisionStrategy
+LLMDecisionStrategy --> ModelGateway
+ModelGateway <|.. ProviderAdapter
+ModelGateway <|.. FakeModelGateway
+ProviderAdapter --> ProviderClient : 转换协议
+note bottom of EventHub
+每个进程各有EventHub。
+组间广播由Redis Streams承担。
+认知副作用提交后再ACK。
+end note
+note bottom of DecisionStrategy
+返回同一个ActionProposal契约。
+失败切换规则，禁止直接修改世界。
+end note
+@enduml

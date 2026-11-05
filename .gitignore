@@ -1,0 +1,47 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+backend/build/
+backend/dist/
+
+# Frontend and generated reports; retain package-lock.json
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+coverage/
+playwright-report/
+test-results/
+
+# Tooling and local artifacts
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+data/
+.presentation-build/
+.repository-work/
+.upload-build/
+.upload-prep/
+.remote-verification/
+
+# Office lock files and optional UML tool cache
+~$*
+*.tmp
+docs/uml-v2/tools/*.jar
+docs/uml-v2/rendered/contact-sheet.png

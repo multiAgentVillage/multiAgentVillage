@@ -1,0 +1,83 @@
+"""Data/message contracts; implementations never start a nested world transaction."""
+from __future__ import annotations
+
+from types import TracebackType
+from typing import Protocol, Self
+
+from app.domain.commands import CommandEnvelope, CommandReceipt, WorldCommand
+from app.domain.events import DomainEvent, EventDraft
+from app.domain.memento import WorldMemento
+from app.domain.world import World
+
+
+class CommandInbox(Protocol):
+    async def append(self, envelope: CommandEnvelope) -> CommandReceipt: ...
+
+
+class CommandCodec(Protocol):
+    """Decode registered (type, schema_version) pairs; reject arbitrary imports."""
+
+    def decode(self, envelope: CommandEnvelope) -> WorldCommand: ...
+
+
+class CommandRepository(Protocol):
+    async def next_eligible(self, run_id: str, *, control_first: bool) -> CommandEnvelope | None: ...
+    async def defer(self, command_id: str) -> None: ...
+    async def finish(self, receipt: CommandReceipt) -> None: ...
+
+
+class WorldRepository(Protocol):
+    """for_update locks the owning run before command selection and world loading."""
+
+    async def load(self, run_id: str, *, for_update: bool) -> World: ...
+    async def save(self, world: World) -> None: ...
+
+
+class EventStore(Protocol):
+    async def append_with_seq(self, run_id: str, drafts: tuple[EventDraft, ...]) -> tuple[DomainEvent, ...]: ...
+    async def between(self, run_id: str, from_seq: int, to_seq: int) -> tuple[DomainEvent, ...]: ...
+    async def after(self, run_id: str, after_seq: int, *, limit: int) -> tuple[DomainEvent, ...]: ...
+
+
+class OutboxStore(Protocol):
+    async def add(self, events: tuple[DomainEvent, ...]) -> None: ...
+
+
+class ConsumerReceiptStore(Protocol):
+    """Claim and consumer effects commit together; False means already processed."""
+
+    async def claim(self, consumer_name: str, event_id: str) -> bool: ...
+
+
+class EventPublisher(Protocol):
+    async def publish(self, event: DomainEvent) -> None: ...
+
+
+class SnapshotStore(Protocol):
+    async def save(self, memento: WorldMemento) -> None: ...
+    async def load_nearest(self, run_id: str, seq: int) -> WorldMemento | None: ...
+
+
+class ReadService(Protocol):
+    async def current_state(self, run_id: str) -> WorldMemento: ...
+    async def events_after(self, run_id: str, after_seq: int, *, limit: int) -> tuple[DomainEvent, ...]: ...
+
+
+class UnitOfWork(Protocol):
+    """Own one session/transaction; CommandProcessor controls commit/rollback."""
+
+    @property
+    def worlds(self) -> WorldRepository: ...
+    @property
+    def commands(self) -> CommandRepository: ...
+    @property
+    def events(self) -> EventStore: ...
+    @property
+    def outbox(self) -> OutboxStore: ...
+    async def __aenter__(self) -> Self: ...
+    async def __aexit__(
+        self, exc_type: type[BaseException] | None,
+        exc_value: BaseException | None, traceback: TracebackType | None,
+    ) -> bool | None: ...
+    async def commit(self) -> None: ...
+    async def rollback(self) -> None: ...
