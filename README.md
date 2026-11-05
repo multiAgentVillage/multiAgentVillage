@@ -10,6 +10,8 @@
 
 组员从[开发模板使用说明](docs/development-template.md)开始；计划书Word与可编辑答辩PPT见[汇报材料](deliverables/README.md)。上传前的独立审查及复测范围见[模板验收记录](docs/template-review-2026-11-05.md)。
 
+下一阶段按W2完成规则闭环，三人分工、协作接口和验收目标见[下一阶段计划](docs/stage4-w2/README.md)。
+
 ## 目录
 
 ```text

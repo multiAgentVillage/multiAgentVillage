@@ -1,5 +1,5 @@
 {
-  "description": "Reviewed stage-three source, tests, design and editable presentation artifacts",
+  "description": "W1 notice walking skeleton, W2 construction plans, source, tests and editable design artifacts",
   "files": [
     {
       "path": ".env.example",
@@ -17,9 +17,24 @@
       "sha256": "929cfedf285f2f8a29986df2c4ab89229a3387bccb77eb99673c4d980e0d7f77"
     },
     {
+      "path": "README.md",
+      "bytes": 12853,
+      "sha256": "dabfdfd269567e463b9411998f2eeadfffcf6b742db4ffc011bfe2d2bb0a427e"
+    },
+    {
       "path": "backend/.dockerignore",
       "bytes": 82,
       "sha256": "03ac26f4d8310f94b96c668c059260d1947538a2957edf85f7b7694dda6aa17b"
+    },
+    {
+      "path": "backend/Dockerfile",
+      "bytes": 537,
+      "sha256": "52596e41df247a3dad2801e52840343dc4d44f10f0679995b4e1cbaaa8f944e8"
+    },
+    {
+      "path": "backend/alembic.ini",
+      "bytes": 544,
+      "sha256": "fa2cdc980b0cd629d1a43debc316613a8a61c38aa183e40228c2f86c674cbb12"
     },
     {
       "path": "backend/alembic/env.py",
@@ -45,11 +60,6 @@
       "path": "backend/alembic/versions/README.md",
       "bytes": 828,
       "sha256": "908f8116ea6fe7e3424cb0b260954d569f33f63740fe61ba610ce6e6a14971b8"
-    },
-    {
-      "path": "backend/alembic.ini",
-      "bytes": 544,
-      "sha256": "fa2cdc980b0cd629d1a43debc316613a8a61c38aa183e40228c2f86c674cbb12"
     },
     {
       "path": "backend/app/__init__.py",
@@ -332,11 +342,6 @@
       "sha256": "7ab07700b01c983f9fbfb68c412efe3cd9b30e9e13e8e99574ee4512bd568e9f"
     },
     {
-      "path": "backend/Dockerfile",
-      "bytes": 537,
-      "sha256": "52596e41df247a3dad2801e52840343dc4d44f10f0679995b4e1cbaaa8f944e8"
-    },
-    {
       "path": "backend/pyproject.toml",
       "bytes": 784,
       "sha256": "97463d9485cd4fa08e20a226f3fe3e2d877d608f9cce0c14cf05499e7346b792"
@@ -482,6 +487,31 @@
       "sha256": "9e5bdd31336d0fbfe663b722c1becf13ba240036bdc4fcba916f4ccf167224f8"
     },
     {
+      "path": "docs/stage4-w2/A-runtime.md",
+      "bytes": 5160,
+      "sha256": "eb30400d85899389917a50c037add5f9d3f4cd80fb489d946e62051bf6a69166"
+    },
+    {
+      "path": "docs/stage4-w2/B-cognition.md",
+      "bytes": 5093,
+      "sha256": "426c68ce95e486419eba48162daebb7ea1ac6e884e2ac2a10660fcfdfe429380"
+    },
+    {
+      "path": "docs/stage4-w2/C-product.md",
+      "bytes": 4356,
+      "sha256": "1d1c5a9f527a0e7a76b8183f9b0dde450d430f0e3af8b0418ff53c5c5fafec4b"
+    },
+    {
+      "path": "docs/stage4-w2/README.md",
+      "bytes": 5590,
+      "sha256": "31b883d9b8875565a765d7cab5d6a87f2e0bf802d39102d05d0f55daa9a38fa7"
+    },
+    {
+      "path": "docs/stage4-w2/contracts.md",
+      "bytes": 23158,
+      "sha256": "a868c6b04a59a00a86139cbc649fecc114598b76ec504dec0352da5e53cfde00"
+    },
+    {
       "path": "docs/tasks/stage3-original-prompt.md",
       "bytes": 4519,
       "sha256": "ef3b71f0f9e2fdbef4714c6e9d1b202306a73b20f938d307f1a3b9329edc9f80"
@@ -500,6 +530,11 @@
       "path": "docs/uml-v2/.gitignore",
       "bytes": 25,
       "sha256": "75238c5b8a0e9fc80f11fbb570d2c354dfabb7abdc858e764e3db666f68107c2"
+    },
+    {
+      "path": "docs/uml-v2/README.md",
+      "bytes": 3395,
+      "sha256": "5a32cc7e5ef1d92db466590473566b90d774bcf984e48652270875a1224bbb2d"
     },
     {
       "path": "docs/uml-v2/build_plan_v2.py",
@@ -555,11 +590,6 @@
       "path": "docs/uml-v2/diagrams/U08-deployment.puml",
       "bytes": 1582,
       "sha256": "81ed8fd382c985c920f62e30aec6ee847ffdddd7d9882580ed7b8c8add7600c0"
-    },
-    {
-      "path": "docs/uml-v2/README.md",
-      "bytes": 3395,
-      "sha256": "5a32cc7e5ef1d92db466590473566b90d774bcf984e48652270875a1224bbb2d"
     },
     {
       "path": "docs/uml-v2/reference_interfaces.py",
@@ -642,6 +672,11 @@
       "sha256": "24a6cb40b9042cfeaff866d7524684ee772f6065cf39df16cba04be42330559c"
     },
     {
+      "path": "frontend/README.md",
+      "bytes": 1154,
+      "sha256": "46482f6909cd47eb9480f98dfc61740f4c5012778c059da81d2821c0a542351f"
+    },
+    {
       "path": "frontend/index.html",
       "bytes": 421,
       "sha256": "603e026523a962697b730ebdad7e277205d1a0385754a3a4cb4e3229245de4b2"
@@ -662,9 +697,9 @@
       "sha256": "ab880bd4b7a527e05cb09b64c64b45765e724feea1712da85205c8ca5d6eede0"
     },
     {
-      "path": "frontend/README.md",
-      "bytes": 1154,
-      "sha256": "46482f6909cd47eb9480f98dfc61740f4c5012778c059da81d2821c0a542351f"
+      "path": "frontend/src/App.tsx",
+      "bytes": 2951,
+      "sha256": "a9c18a26eb78cbd99a5b8037f0caeca82a25ab678b7c28910a956dea476da51f"
     },
     {
       "path": "frontend/src/api/client.ts",
@@ -687,19 +722,9 @@
       "sha256": "58b13fe9d8702b1e15a2a761424791c41d895f976107f2c80fe68533ec9c1526"
     },
     {
-      "path": "frontend/src/App.tsx",
-      "bytes": 2951,
-      "sha256": "a9c18a26eb78cbd99a5b8037f0caeca82a25ab678b7c28910a956dea476da51f"
-    },
-    {
       "path": "frontend/src/features/system/HealthCard.tsx",
       "bytes": 2806,
       "sha256": "ef8be322b4cbd8ceccad8fa6f08de309fc4867d3be40b0946a2efcebd867b555"
-    },
-    {
-      "path": "frontend/src/features/workbench/event-state.ts",
-      "bytes": 2297,
-      "sha256": "3528e05305cc648877543d7eb61a7e74af56aa5d3315dfb7cd31d4dc9a67ec07"
     },
     {
       "path": "frontend/src/features/workbench/NoticeComposer.tsx",
@@ -707,14 +732,19 @@
       "sha256": "0e127761ea2589d8c82f375aeaa2f0bf25c95b40d71d61e1bf71152ef6e7fa15"
     },
     {
-      "path": "frontend/src/features/workbench/useEventFeed.ts",
-      "bytes": 3561,
-      "sha256": "fc7e9fd983ffe33fdccd03a7efef31cdb07eeb49d31ac46769aed306ef791824"
-    },
-    {
       "path": "frontend/src/features/workbench/Workbench.tsx",
       "bytes": 8244,
       "sha256": "b52130c253906067669d69cfc203c851883c16550b79651b635fdc214070e879"
+    },
+    {
+      "path": "frontend/src/features/workbench/event-state.ts",
+      "bytes": 2297,
+      "sha256": "3528e05305cc648877543d7eb61a7e74af56aa5d3315dfb7cd31d4dc9a67ec07"
+    },
+    {
+      "path": "frontend/src/features/workbench/useEventFeed.ts",
+      "bytes": 3561,
+      "sha256": "fc7e9fd983ffe33fdccd03a7efef31cdb07eeb49d31ac46769aed306ef791824"
     },
     {
       "path": "frontend/src/main.tsx",
@@ -755,11 +785,6 @@
       "path": "frontend/vite.config.ts",
       "bytes": 907,
       "sha256": "7d028da5a6c5ef9e6d13c046c0dede032a64cf425c708531eb083ea79a8c4a49"
-    },
-    {
-      "path": "README.md",
-      "bytes": 12719,
-      "sha256": "a2035d677c90a5c899ccd32ab6d55671d276b4a23e0abf84cd7231a775a4b1ac"
     }
   ]
 }
